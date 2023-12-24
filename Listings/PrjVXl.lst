@@ -1,0 +1,132 @@
+A51 MACRO ASSEMBLER  PRJVXL                                                               12/24/2023 17:03:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\PrjVXl.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE PrjVXl.asm SET(SMALL) DEBUG PRINT(.\Listings\PrjVXl.lst) OBJECT(.\Objec
+                      ts\PrjVXl.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  0096                 1     start bit p1.6
+  0094                 2     eoc bit p1.4
+  0095                 3     ale bit p1.5
+  0097                 4     clk bit P1.7
+                       5             
+  0090                 6     led1 bit p1.0
+  0091                 7     led2 bit p1.1
+  0092                 8     led3 bit p1.2
+  0093                 9     led4 bit p1.3
+                      10             
+0000                  11     org 000h
+0000 802E             12             jmp MAIN
+000B                  13     org 000bh 
+000B B297             14             timer0_interrupt: cpl clk
+000D 32               15             reti
+0030                  16     org 0030h
+0030 758902           17     main: mov tmod,#02H
+0033 758CFA           18               mov TH0,#250
+0036 D28C             19               setb TR0
+0038 75A882           20               mov IE,#82H
+003B 120049           21               lcall setup
+003E 12005E           22               lcall hex_bcd
+0041 120068           23               lcall bcd_7seg
+0044 120076           24               lcall hienthi
+0047 80E7             25               jmp main
+                      26               
+                      27               
+0049 D295             28     setup:  setb ale
+004B C295             29                     clr ale
+004D D296             30                     setb start
+004F 2094FD           31                     jb eoc,$ 
+0052 C296             32                     clr start
+0054 7F96             33                     mov r7,#150
+0056 120076           34                     de: lcall hienthi
+0059 DFFB             35                             djnz r7,de
+005B E5B0             36                     mov a,p3
+005D 22               37                     ret
+                      38                     
+005E 75F00A           39     hex_bcd:        mov b,#10
+0061 84               40                             div ab
+0062 85F010           41                             mov 10h,b 
+0065 F511             42                             mov 11h,a 
+0067 22               43                             ret
+                      44                             
+0068 900900           45     bcd_7seg:       mov dptr,#900h
+006B E510             46                             mov a,10h
+006D 93               47                             movc a,@a + dptr
+006E F520             48                             mov 20h,a
+0070 E511             49                             mov a,11h
+0072 93               50                             movc a,@a + dptr
+0073 F521             51                             mov 21h,a
+0075 22               52                             ret
+                      53                             
+0076 852180           54     hienthi:        mov p0,21h
+0079 D290             55                             setb led1
+007B 1200A3           56                             lcall delay
+007E 5390F0           57                             anl p1,#0f0h ; p1=----1111
+A51 MACRO ASSEMBLER  PRJVXL                                                               12/24/2023 17:03:59 PAGE     2
+
+                      58     
+0081 852080           59                             mov p0,20h
+0084 D291             60                             setb led2
+0086 1200A3           61                             lcall delay
+0089 5390F0           62                             anl p1,#0f0h
+                      63     
+008C 75809C           64                             mov p0,#09ch
+008F D292             65                             setb led3
+0091 1200A3           66                             lcall delay
+0094 5390F0           67                             anl p1,#0f0h
+                      68     
+0097 7580C6           69                             mov p0,#0c6h
+009A D293             70                             setb led4
+009C 1200A3           71                             lcall delay
+009F 5390F0           72                             anl p1,#0f0h
+00A2 22               73                             ret
+00A3 757F64           74     delay:          mov 7fh,#100
+00A6 D57FFD           75                             djnz 7fh,$
+00A9 22               76                             ret
+0900                  77     org 900h
+0900 C0F9A4B0         78     db 0C0h,0f9h,0a4h,0b0h,099h,092h,082h,0f8h,080h,090h
+0904 999282F8                
+0908 8090                    
+                      79     ; db 03fh,006h,05bh,04fh,066h,06dh,07dh,007h,07fh,06fh
+                      80     END
+A51 MACRO ASSEMBLER  PRJVXL                                                               12/24/2023 17:03:59 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ALE. . . . . . . .  B ADDR   0090H.5 A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BCD_7SEG . . . . .  C ADDR   0068H   A   
+CLK. . . . . . . .  B ADDR   0090H.7 A   
+DE . . . . . . . .  C ADDR   0056H   A   
+DELAY. . . . . . .  C ADDR   00A3H   A   
+EOC. . . . . . . .  B ADDR   0090H.4 A   
+HEX_BCD. . . . . .  C ADDR   005EH   A   
+HIENTHI. . . . . .  C ADDR   0076H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+LED1 . . . . . . .  B ADDR   0090H.0 A   
+LED2 . . . . . . .  B ADDR   0090H.1 A   
+LED3 . . . . . . .  B ADDR   0090H.2 A   
+LED4 . . . . . . .  B ADDR   0090H.3 A   
+MAIN . . . . . . .  C ADDR   0030H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+SETUP. . . . . . .  C ADDR   0049H   A   
+START. . . . . . .  B ADDR   0090H.6 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TIMER0_INTERRUPT .  C ADDR   000BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
