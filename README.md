@@ -1,5 +1,5 @@
 # Prj_thermometer
-This is the project of microcontroller course.
+This is the project of 8051 microcontroller course.
 
 1. Install Proteus
 2. Open "New Project.pdsprj"
