@@ -15,7 +15,7 @@ org 000bh
 	reti
 org 0030h
 main: mov tmod,#02H
-	  mov TH0,#0ech
+	  mov TH0,#0ech ; chạy ở tần số 50KHz
 	  setb TR0
 	  mov IE,#82H ; thiết lập bit et0 và bit ea
 	  lcall setup
